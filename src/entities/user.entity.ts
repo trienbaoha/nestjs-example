@@ -1,42 +1,52 @@
-import { Expose, plainToClass } from "class-transformer";
+import { ApiProperty } from "@nestjs/swagger";
+import { Exclude, Expose, plainToClass } from "class-transformer";
 import { SystemRole } from "src/common/enums/system-role.enum";
 import { Column, CreateDateColumn, Entity, ObjectID, ObjectIdColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('users')
 export class User {
-    @Expose()
+    @Exclude({ toPlainOnly: true })
     @ObjectIdColumn()
     _id: ObjectID;
+
+    @ApiProperty()
+    @Expose()
+    get id(): String { return this._id ? `${this._id}` : undefined }
 
     @Expose()
     @Column()
     fullName: string;
 
     @Expose()
+    @ApiProperty()
     @Column({ unique: true })
     userName: string;
 
     @Expose()
+    @ApiProperty()
     @Column({ unique: true })
     email: string
 
-    @Expose()
+    @Exclude({ toPlainOnly: true })
+    @ApiProperty()
     @Column({ type: 'enum', enum: SystemRole, default: () => SystemRole.USER })
     role: string;
 
-    @Expose()
+    @ApiProperty()
+    @Exclude({ toPlainOnly: true })
     @Column()
     password: string;
 
     @Expose()
+    @ApiProperty()
     @Column({ nullable: true })
     avt?: string;
 
-    @Expose()
+    @Exclude({ toPlainOnly: true })
     @CreateDateColumn()
     createdAt: Date;
 
-    @Expose()
+    @Exclude({ toPlainOnly: true })
     @UpdateDateColumn()
     updatedAt: Date;
 

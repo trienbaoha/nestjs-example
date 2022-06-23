@@ -13,6 +13,7 @@ export const env = convict({
   jwtSecret: {
     format: String,
     env: "JWT_SECRET",
+    default: 'nestjs-example@@@',
     doc: 'jwt secret'
   },
   port: {
