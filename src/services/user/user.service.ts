@@ -4,13 +4,8 @@ import { User } from "@entities";
 import { ConflictException, ForbiddenException, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { InjectRepository } from "@nestjs/typeorm";
+import { UserRepository } from "@repositories";
 import { compare } from "bcrypt";
-import { UserRepository } from "src/repositories/user.repository";
-import {
-    paginate,
-    Pagination,
-    IPaginationOptions,
-} from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class UserService {
@@ -38,7 +33,7 @@ export class UserService {
     }
 
     async login(user: User) {
-        const payload = { userName: user.userName, id: user.id };
+        const payload = { userName: user.userName, id: user.id, roles: user.roles };
         return {
             'user': user,
             'access_token': this.jwtService.sign(payload)

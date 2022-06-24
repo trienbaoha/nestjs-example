@@ -23,6 +23,6 @@ export class SignUpDto {
   email: string;
 
   @IsNotEmpty()
-  @ApiProperty({ type: 'enum', enumName: 'role', enum: SystemRole, default: () => SystemRole.USER })
-  role: SystemRole;
+  @ApiProperty({ type: 'enum', enumName: 'role', isArray:true, enum: SystemRole, default: () => [SystemRole.USER ]})
+  roles: [SystemRole];
 }

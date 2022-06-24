@@ -29,8 +29,8 @@ export class User {
 
     @Exclude({ toPlainOnly: true })
     @ApiProperty()
-    @Column({ type: 'enum', enum: SystemRole, default: () => SystemRole.USER })
-    role: string;
+    @Column({ type: 'enum', array: true, enum: SystemRole, default: () => [SystemRole.USER] })
+    roles: string[];
 
     @ApiProperty()
     @Exclude({ toPlainOnly: true })
@@ -38,7 +38,7 @@ export class User {
     password: string;
 
     @Expose()
-    @ApiProperty({nullable: true})
+    @ApiProperty({ nullable: true })
     @Column({ nullable: true })
     avt?: string;
 

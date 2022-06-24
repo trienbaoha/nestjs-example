@@ -1,4 +1,4 @@
-import { JwtAuthGuard, LocalAuthGuard } from "@common";
+import { JwtAuthGuard, LocalAuthGuard, Roles } from "@common";
 import { LoginDto, SignUpDto } from "@dtos";
 import { User } from "@entities";
 import { Body, ClassSerializerInterceptor, Controller, DefaultValuePipe, Get, HttpCode, ParseIntPipe, Post, Query, Req, UseGuards, UseInterceptors } from "@nestjs/common";
@@ -40,8 +40,9 @@ export class UserController {
     }
 
     @Get()
-    @UseGuards(JwtAuthGuard)
     @UseGuards(RolesGuard)
+    @Roles('admin')
+    @UseGuards(JwtAuthGuard)
     @ApiOkResponse({ description: 'Lấy thông ds user', type: User, isArray: true })
     async users(
         @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,

@@ -33,12 +33,14 @@
       "@services": [
         "src/services"
       ],
-    
       "@environments": [
-      "src/environments"
+        "src/environments"
       ],
       "@configs": [
         "src/configs"
+      ],
+      "@repositories": [
+        "src/repositories"
       ],
     }
   }
