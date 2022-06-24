@@ -6,6 +6,11 @@ import { JwtService } from "@nestjs/jwt";
 import { InjectRepository } from "@nestjs/typeorm";
 import { compare } from "bcrypt";
 import { UserRepository } from "src/repositories/user.repository";
+import {
+    paginate,
+    Pagination,
+    IPaginationOptions,
+} from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class UserService {
@@ -40,6 +45,14 @@ export class UserService {
         };
     }
     async getUserInfo(id: string): Promise<User> {
-        return  this.userRepository.findOneBy({ id: id });
+        return this.userRepository.findOneById(id);
     }
+
+    async getUsers(offset: number, limit: number): Promise<any> {
+        return this.userRepository.find({
+            skip: offset,
+            take: limit
+        });
+    }
+
 }

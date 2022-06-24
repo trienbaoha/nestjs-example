@@ -38,7 +38,7 @@ export class User {
     password: string;
 
     @Expose()
-    @ApiProperty()
+    @ApiProperty({nullable: true})
     @Column({ nullable: true })
     avt?: string;
 

@@ -1,10 +1,11 @@
 import { JwtAuthGuard, LocalAuthGuard } from "@common";
 import { LoginDto, SignUpDto } from "@dtos";
 import { User } from "@entities";
-import { Body, ClassSerializerInterceptor, Controller, Get, HttpCode, Post, Req, UseGuards, UseInterceptors } from "@nestjs/common";
+import { Body, ClassSerializerInterceptor, Controller, DefaultValuePipe, Get, HttpCode, ParseIntPipe, Post, Query, Req, UseGuards, UseInterceptors } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiConflictResponse, ApiCreatedResponse, ApiOkResponse, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { UserService } from "@services";
 import { equal } from "assert";
+import { RolesGuard } from "src/common/guards/role.guard";
 
 @Controller('users')
 @ApiBearerAuth()
@@ -38,4 +39,15 @@ export class UserController {
         return this.userService.getUserInfo(req.user.id);
     }
 
+    @Get()
+    @UseGuards(JwtAuthGuard)
+    @UseGuards(RolesGuard)
+    @ApiOkResponse({ description: 'Lấy thông ds user', type: User, isArray: true })
+    async users(
+        @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
+        @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
+    ) {
+        const offset = (page -1)*limit;
+        return this.userService.getUsers(offset,limit);
+    }
 }
